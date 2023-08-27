@@ -1,9 +1,7 @@
 import { cn } from '@/utils/functions'
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import { INTER } from '@/utils/fonts'
 
 export const metadata: Metadata = {
   title: 'Launcher App',
@@ -15,8 +13,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='es'>
       <body
         className={cn(
-          'mx-auto h-screen w-screen bg-zinc-900 max-w-5xl flex flex-col items-center  text-white gap-10 relative py-28 md:py-20',
-          inter.className
+          'mx-auto h-screen w-screen bg-zinc-900 max-w-5xl flex flex-col items-center  text-white gap-10 relative py-28 md:py-20 overflow-x-hidden',
+          INTER.className
         )}
       >
         {children}
