@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='es'>
       <body
         className={cn(
-          'mx-auto h-screen w-screen bg-zinc-900 max-w-5xl flex flex-col items-center  text-white gap-10 relative py-28 md:py-20 overflow-x-hidden',
+          'mx-auto h-screen w-screen bg-zinc-900 max-w-5xl flex flex-col items-center  text-white gap-10 py-28 md:py-20 overflow-x-hidden',
           INTER.className
         )}
       >
