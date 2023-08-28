@@ -10,7 +10,7 @@ import { cn } from '@/utils/functions'
 import CheckIcon from '../icons/check-icon'
 import CrossIcon from '../icons/cross-icon'
 import ConfigFormError from '../config-form-error'
-import type { AnySchema } from 'valibot'
+import type { StringSchema } from 'valibot'
 
 export interface DropdownElement {
   name: string
@@ -24,7 +24,7 @@ export interface Props {
   placeholder: string
   id: string
   noResultsText: string
-  schema: AnySchema
+  schema: StringSchema<string>
   children?: React.ReactNode
 }
 

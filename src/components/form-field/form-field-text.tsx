@@ -1,6 +1,6 @@
 'use client'
 
-import { parse, type AnySchema } from 'valibot'
+import { parse, type StringSchema } from 'valibot'
 import FormFieldLabel from './form-field-label'
 import FormFieldWraper from './form-field-wraper'
 import { useState, type ChangeEvent } from 'react'
@@ -13,7 +13,7 @@ export interface Props {
   type?: 'text' | 'email' | 'password'
   maxLength?: number
   children?: React.ReactNode
-  schema: AnySchema
+  schema: StringSchema<string>
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
