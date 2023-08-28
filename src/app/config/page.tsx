@@ -1,11 +1,8 @@
-import FormFieldDropdownVariant from '@/components/form-field/form-field-dropdown-variant'
+'use client'
+
+import { CONFIG_FORM_PROPS_FIELDS } from './props'
+import ConfigForm from '@/components/config-form'
 
 export default function ConfigPage() {
-  return (
-    <>
-      <form className='flex flex-col items-center justify-center w-full h-full'>
-        <FormFieldDropdownVariant />
-      </form>
-    </>
-  )
+  return <ConfigForm formFields={CONFIG_FORM_PROPS_FIELDS} />
 }
