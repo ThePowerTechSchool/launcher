@@ -59,7 +59,7 @@ export default function ConfigForm({ formFields }: Props) {
       setIsSubmitButtonDisabled(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values])
+  }, [values, step])
 
   return (
     <form

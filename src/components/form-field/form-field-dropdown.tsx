@@ -26,6 +26,7 @@ export interface Props {
   noResultsText: string
   schema: StringSchema<string>
   children?: React.ReactNode
+  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 const HIGHLIGHTED_COLORS = {
@@ -40,7 +41,8 @@ export default function FormFieldDropdown({
   label,
   placeholder,
   noResultsText,
-  children
+  children,
+  handleChange
 }: Props) {
   const [value, setValue] = useState('')
   const [selectedElement, setSelectedElement] = useState('')
@@ -55,10 +57,11 @@ export default function FormFieldDropdown({
     setIsOpen(true)
   }
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const _handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
     setCrossIcon(true)
     setSelectedElement('')
+    handleChange && handleChange(e)
   }
 
   const handleChevronButtonClick = () => {
@@ -120,7 +123,7 @@ export default function FormFieldDropdown({
         <div className='flex justify-between items-center w-full bg-transparent border-b border-white '>
           <input
             onFocus={handleFocus}
-            onChange={handleChange}
+            onChange={_handleChange}
             value={value}
             className='text-[20px] font-sans outline-none bg-transparent w-full max-w-[720px] z-20'
             type='text'
