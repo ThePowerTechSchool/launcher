@@ -6,12 +6,12 @@ interface Props {
   className?: string
 }
 
-export default function ConfigFormError({ children, className }: Props) {
+export default function ErrorMessage({ children, className }: Props) {
   return (
     <div
       role='alert'
       className={cn(
-        'bg-red-200 py-2 px-2 text-md flex  items-center text-red-500 max-w-[275px] rounded-sm',
+        'bg-red-200 py-2 px-2 text-md flex  items-center text-red-500 rounded-sm',
         className
       )}
     >
