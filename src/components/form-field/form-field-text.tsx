@@ -1,10 +1,8 @@
 'use client'
 
-import { parse, type StringSchema } from 'valibot'
 import FormFieldLabel from './form-field-label'
 import FormFieldWraper from './form-field-wraper'
-import { useState, type ChangeEvent } from 'react'
-import ConfigFormError from '../config-form-error'
+import ErrorMessage from '../error-message'
 
 export interface Props {
   label: string
@@ -13,8 +11,8 @@ export interface Props {
   type?: 'text' | 'email' | 'password'
   maxLength?: number
   children?: React.ReactNode
-  schema: StringSchema<string>
-  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  errorMessage?: string
+  defaultValue?: string
 }
 
 export default function FormFieldText({
@@ -24,27 +22,13 @@ export default function FormFieldText({
   type = 'text',
   maxLength = 32,
   children,
-  schema,
-  handleChange
+  errorMessage,
+  defaultValue
 }: Props) {
-  const [errorMessage, setErrorMessage] = useState('')
-
-  const _handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      parse(schema, e.target.value)
-      setErrorMessage('')
-      handleChange && handleChange(e)
-    } catch (err) {
-      const _err = err as Error
-      setErrorMessage(_err.message)
-    }
-  }
-
   return (
     <FormFieldWraper>
       <FormFieldLabel htmlFor='project-name'>{label}</FormFieldLabel>
       <input
-        onChange={_handleChange}
         className='bg-transparent border-b border-white w-full text-[20px] max-w line-clamp-[28px] font-sans outline-none'
         maxLength={maxLength}
         autoComplete='off'
@@ -53,8 +37,10 @@ export default function FormFieldText({
         type={type}
         id={id}
         name={id}
+        defaultValue={defaultValue}
       />
-      {errorMessage ? <ConfigFormError>{errorMessage}</ConfigFormError> : children}
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      {children}
     </FormFieldWraper>
   )
 }
