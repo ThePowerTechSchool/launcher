@@ -3,6 +3,11 @@
 import FormFieldLabel from './form-field-label'
 import FormFieldWraper from './form-field-wraper'
 import ErrorMessage from '../error-message'
+import { parse, type StringSchema } from 'valibot'
+import SubmitButton from '../submit-button'
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
+import type { ButtonType } from '@/utils/types'
 
 export interface Props {
   label: string
@@ -10,9 +15,10 @@ export interface Props {
   placeholder: string
   type?: 'text' | 'email' | 'password'
   maxLength?: number
-  children?: React.ReactNode
-  errorMessage?: string
   defaultValue?: string
+  schema: StringSchema<string>
+  onSuccess: (value: string, id: string) => void
+  buttonType?: ButtonType
 }
 
 export default function FormFieldText({
@@ -21,10 +27,28 @@ export default function FormFieldText({
   placeholder,
   type = 'text',
   maxLength = 32,
-  children,
-  errorMessage,
-  defaultValue
+  defaultValue,
+  schema,
+  onSuccess,
+  buttonType
 }: Props) {
+  const [errorMessage, setErrorMessage] = useState('')
+  const [value, setValue] = useState(defaultValue ?? '')
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setValue(value)
+  }
+  const handleClick = () => {
+    try {
+      parse(schema, value)
+      setErrorMessage('')
+      onSuccess(value, id)
+    } catch (err) {
+      setErrorMessage((err as Error).message)
+    }
+  }
+
   return (
     <FormFieldWraper>
       <FormFieldLabel htmlFor='project-name'>{label}</FormFieldLabel>
@@ -36,11 +60,12 @@ export default function FormFieldText({
         placeholder={placeholder}
         type={type}
         id={id}
+        onChange={handleChange}
         name={id}
         defaultValue={defaultValue}
       />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      {children}
+      <SubmitButton type={buttonType} onClick={handleClick} />
     </FormFieldWraper>
   )
 }

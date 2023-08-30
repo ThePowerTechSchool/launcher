@@ -2,26 +2,33 @@ import type { DropdownElement, ErrorMessage } from '@/components/form-field/type
 // import type { Technology } from '@/utils/types'
 import type { ChangeEvent } from 'react'
 import { useEffect, useState } from 'react'
+import type { StringSchema } from 'valibot'
+import { parse } from 'valibot'
 
 interface Props {
   elements: DropdownElement[]
   errorMessage?: ErrorMessage
   defaultValue?: string
+  schema: StringSchema<string>
+  onSuccess: (value: string, id: string) => void
   id: string
 }
 
-export function useFormFieldDropdown({ elements, errorMessage, defaultValue, id }: Props) {
-  const [value, setValue] = useState('')
+export function useFormFieldDropdown({ elements, defaultValue, schema, onSuccess, id }: Props) {
+  const [value, setValue] = useState(defaultValue ?? '')
   const [selectedElement, setSelectedElement] = useState('')
   const [dropdownElements, setDropdownElements] = useState(elements)
   const [isOpen, setIsOpen] = useState(false)
   const [crossIcon, setCrossIcon] = useState(false)
   const [isFirstRender, setIsFirstRender] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const showChildren = !isOpen
-  const showOverlayContainer = isOpen && !!!errorMessage?.message
+  const showOverlayContainer = isOpen && !errorMessage
 
-  const handleFocus = () => {}
+  const handleFocus = () => {
+    setIsOpen(true)
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
@@ -51,6 +58,20 @@ export function useFormFieldDropdown({ elements, errorMessage, defaultValue, id 
     setCrossIcon(false)
   }
 
+  const handleSubmitButtonClick = () => {
+    try {
+      parse(schema, value)
+      setErrorMessage('')
+      onSuccess(value, id)
+      setValue(defaultValue ?? '')
+      setSelectedElement('')
+      setIsOpen(false)
+      setCrossIcon(false)
+    } catch (err) {
+      setErrorMessage((err as Error).message)
+    }
+  }
+
   useEffect(() => {
     const { length: valueLength } = value
     const newDropdownElements = elements.filter((technology) => {
@@ -72,7 +93,7 @@ export function useFormFieldDropdown({ elements, errorMessage, defaultValue, id 
 
   useEffect(() => {
     if (isOpen) {
-      errorMessage?.clear()
+      setErrorMessage('')
     }
   }, [isOpen])
 
@@ -85,12 +106,12 @@ export function useFormFieldDropdown({ elements, errorMessage, defaultValue, id 
     }
   }, [])
 
-  useEffect(() => {
-    setValue(defaultValue ?? '')
-    setSelectedElement(defaultValue ?? '')
-    setCrossIcon(defaultValue ? true : false)
-    setIsOpen(false)
-  }, [id])
+  // useEffect(() => {
+  //   setValue(defaultValue ?? '')
+  //   setSelectedElement(defaultValue ?? '')
+  //   setCrossIcon(defaultValue ? true : false)
+  //   setIsOpen(false)
+  // }, [id])
 
   return {
     value,
@@ -106,6 +127,8 @@ export function useFormFieldDropdown({ elements, errorMessage, defaultValue, id 
     handleDropdownElementClick,
     handleCrossIconClick,
     showOverlayContainer,
-    isFirstRender
+    isFirstRender,
+    handleSubmitButtonClick,
+    errorMessage
   }
 }

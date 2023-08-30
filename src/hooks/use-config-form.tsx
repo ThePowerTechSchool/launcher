@@ -55,11 +55,6 @@ export function useConfigForm({ formFields }: ConfigFormProps) {
           do {
             const [ifKey, ifValue] = ifEntries[0]
 
-            console.log({
-              ifKey,
-              ifValue
-            })
-
             if (ifValue.includes(newValues[ifKey])) {
               isIfValid = true
             } else {
@@ -78,8 +73,6 @@ export function useConfigForm({ formFields }: ConfigFormProps) {
       setErrorMessage(_err.message)
       return
     }
-
-    console.log('submit')
   }
   return {
     step,

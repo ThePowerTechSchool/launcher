@@ -18,7 +18,7 @@ export default function FormFieldDropdownElement({ className, children, handleCl
     <li
       onClick={handleClick}
       className={cn(
-        'py-2 pl-2 pr-4  border rounded-lg hover:scale-95 transition-transform duration-300 ease-in-out cursor-pointer flex items-center justify-between',
+        'py-2 pl-2 pr-4 border rounded-lg hover:scale-95 transition-transform duration-300 ease-in-out cursor-pointer flex items-center justify-between',
         className
       )}
     >

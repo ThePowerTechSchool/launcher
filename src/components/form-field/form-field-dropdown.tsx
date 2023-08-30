@@ -6,10 +6,12 @@ import { cn } from '@/utils/functions'
 import CrossIcon from '../icons/cross-icon'
 import type { StringSchema } from 'valibot'
 import { useFormFieldDropdown } from '@/hooks/use-form-field-dropdown'
-import type { DropdownElement, ErrorMessage as ErrorMessageType } from './types'
+import type { DropdownElement } from './types'
 import FormFieldDropdownElementsList from './form-field-dropdown-elements-list'
 import OverlayContainer from '../overlay-container'
 import ErrorMessage from '../error-message'
+import SubmitButton from '../submit-button'
+import type { ButtonType } from '@/utils/types'
 
 export interface Props {
   dropdownElements: DropdownElement[]
@@ -17,9 +19,9 @@ export interface Props {
   placeholder: string
   id: string
   schema: StringSchema<string>
-  children?: React.ReactNode
-  errorMessage?: ErrorMessageType
   defaultValue?: string
+  onSuccess: (value: string, id: string) => void
+  buttonType?: ButtonType
 }
 
 export default function FormFieldDropdown({
@@ -27,9 +29,10 @@ export default function FormFieldDropdown({
   id,
   label,
   placeholder,
-  children,
-  errorMessage,
-  defaultValue
+  defaultValue,
+  onSuccess,
+  schema,
+  buttonType
 }: Props) {
   const {
     crossIcon,
@@ -44,8 +47,10 @@ export default function FormFieldDropdown({
     showChildren,
     value,
     handleOverlayClick,
-    showOverlayContainer
-  } = useFormFieldDropdown({ elements, errorMessage, defaultValue, id })
+    showOverlayContainer,
+    errorMessage,
+    handleSubmitButtonClick
+  } = useFormFieldDropdown({ elements, defaultValue, id, onSuccess, schema })
 
   return (
     <>
@@ -89,7 +94,7 @@ export default function FormFieldDropdown({
             </button>
           )}
         </div>
-        {errorMessage?.message && <ErrorMessage> {errorMessage.message} </ErrorMessage>}
+        {errorMessage && <ErrorMessage> {errorMessage} </ErrorMessage>}
 
         {isOpen && (
           <FormFieldDropdownElementsList
@@ -99,7 +104,7 @@ export default function FormFieldDropdown({
             value={value}
           />
         )}
-        {showChildren && children}
+        {showChildren && <SubmitButton type={buttonType} onClick={handleSubmitButtonClick} />}
       </FormFieldWraper>
       {showOverlayContainer && <OverlayContainer handleClick={handleOverlayClick} />}
     </>

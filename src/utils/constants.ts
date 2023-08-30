@@ -65,7 +65,7 @@ export const TECHNOLOGIES: DropdownElement[] = [
   }
 ]
 
-export const FRONT_END_VARIANTS: DropdownElement[] = [
+export const VARIANTS: DropdownElement[] = [
   {
     name: 'Vanilla',
     className: 'text-yellow-300 border-yellow-300 z-20',
@@ -80,7 +80,7 @@ export const FRONT_END_VARIANTS: DropdownElement[] = [
   }
 ]
 
-export const NODE_JS_VARIANTS: DropdownElement[] = [
+export const USE_CASES: DropdownElement[] = [
   {
     name: 'Scripting',
     className: 'text-red-300 border-red-300 z-20',
