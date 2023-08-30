@@ -1,5 +1,5 @@
 import { type Props as CardProps } from '@/components/card'
-import type { DropdownElement } from '@/components/form-field/form-field-dropdown'
+import type { DropdownElement } from '@/components/form-field/types'
 
 export const PRE_ESTABLISHED_CONFIGURATIONS: CardProps[] = [
   {
@@ -59,6 +59,51 @@ export const TECHNOLOGIES: DropdownElement[] = [
   },
   {
     name: 'Node.js',
+    className: 'text-green-300 border-green-300 z-20',
+    higilightedColor: 'green',
+    iconColor: 'fill-green-500'
+  }
+]
+
+export const FRONT_END_VARIANTS: DropdownElement[] = [
+  {
+    name: 'Vanilla',
+    className: 'text-yellow-300 border-yellow-300 z-20',
+    higilightedColor: 'yellow',
+    iconColor: 'fill-yellow-500'
+  },
+  {
+    name: 'TypeScript',
+    className: 'text-blue-300 border-blue-300 z-20',
+    higilightedColor: 'blue',
+    iconColor: 'fill-blue-500'
+  }
+]
+
+export const NODE_JS_VARIANTS: DropdownElement[] = [
+  {
+    name: 'Scripting',
+    className: 'text-red-300 border-red-300 z-20',
+    higilightedColor: 'red',
+    iconColor: 'fill-red-500'
+  },
+  {
+    name: 'Express.js',
+    className: 'text-green-300 border-green-300 z-20',
+    higilightedColor: 'green',
+    iconColor: 'fill-green-500'
+  }
+]
+
+export const STYLING_VARIANATS: DropdownElement[] = [
+  {
+    name: 'Tailwind',
+    className: 'text-blue-300 border-blue-300 z-20',
+    higilightedColor: 'blue',
+    iconColor: 'fill-blue-500'
+  },
+  {
+    name: 'CSS',
     className: 'text-green-300 border-green-300 z-20',
     higilightedColor: 'green',
     iconColor: 'fill-green-500'
