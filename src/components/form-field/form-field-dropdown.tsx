@@ -1,38 +1,25 @@
 'use client'
-
-import type { ChangeEvent } from 'react'
-import { useEffect, useState } from 'react'
 import ChevronDownIcon from '../icons/chevron-down-icon'
 import FormFieldLabel from './form-field-label'
 import FormFieldWraper from './form-field-wraper'
-import FormFieldDropdownElement from './form-field-dropdown-element'
 import { cn } from '@/utils/functions'
-import CheckIcon from '../icons/check-icon'
 import CrossIcon from '../icons/cross-icon'
-import ConfigFormError from '../config-form-error'
 import type { StringSchema } from 'valibot'
+import { useFormFieldDropdown } from '@/hooks/use-form-field-dropdown'
+import type { DropdownElement, ErrorMessage as ErrorMessageType } from './types'
+import FormFieldDropdownElementsList from './form-field-dropdown-elements-list'
+import OverlayContainer from '../overlay-container'
+import ErrorMessage from '../error-message'
 
-export interface DropdownElement {
-  name: string
-  className: string
-  higilightedColor: keyof typeof HIGHLIGHTED_COLORS
-  iconColor: string
-}
 export interface Props {
   dropdownElements: DropdownElement[]
   label: string
   placeholder: string
   id: string
-  noResultsText: string
   schema: StringSchema<string>
   children?: React.ReactNode
-  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void
-}
-
-const HIGHLIGHTED_COLORS = {
-  yellow: 'text-yellow-500',
-  blue: 'text-blue-500',
-  green: 'text-green-500'
+  errorMessage?: ErrorMessageType
+  defaultValue?: string
 }
 
 export default function FormFieldDropdown({
@@ -40,81 +27,25 @@ export default function FormFieldDropdown({
   id,
   label,
   placeholder,
-  noResultsText,
   children,
-  handleChange
+  errorMessage,
+  defaultValue
 }: Props) {
-  const [value, setValue] = useState('')
-  const [selectedElement, setSelectedElement] = useState('')
-  const [dropdownElements, setDropdownElements] = useState(elements)
-  const [isOpen, setIsOpen] = useState(false)
-  const [crossIcon, setCrossIcon] = useState(false)
-  const [showNoResults, setShowNoResults] = useState(false)
-
-  const showChildren = !isOpen && !showNoResults
-
-  const handleFocus = () => {
-    setIsOpen(true)
-  }
-
-  const _handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
-    setCrossIcon(true)
-    setSelectedElement('')
-    handleChange && handleChange(e)
-  }
-
-  const handleChevronButtonClick = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const handleOutsideDropdownClick = () => {
-    setIsOpen(false)
-    const names = elements.map((element) => element.name)
-
-    if (!names.includes(value) && value.length > 0) {
-      setShowNoResults(true)
-    }
-  }
-
-  const handleDropdownElementClick = (value: string) => {
-    setValue(value)
-    setSelectedElement(value)
-    setCrossIcon(true)
-    setIsOpen(false)
-  }
-
-  const handleCrossIconClick = () => {
-    setValue('')
-    setSelectedElement('')
-    setIsOpen(false)
-    setCrossIcon(false)
-  }
-
-  useEffect(() => {
-    const valueLength = value.length
-    const filteredDropdownElements = elements.filter((technology) => {
-      const slicedTechnologyName = technology.name.slice(0, valueLength)
-      return slicedTechnologyName === value
-    })
-    setDropdownElements(filteredDropdownElements)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
-
-  useEffect(() => {
-    if (dropdownElements.length === 0) {
-      setShowNoResults(true)
-    } else {
-      setShowNoResults(false)
-    }
-  }, [dropdownElements])
-
-  useEffect(() => {
-    if (isOpen) {
-      setShowNoResults(false)
-    }
-  }, [isOpen])
+  const {
+    crossIcon,
+    dropdownElements,
+    handleChange,
+    handleChevronButtonClick,
+    handleCrossIconClick,
+    handleDropdownElementClick,
+    handleFocus,
+    isOpen,
+    selectedElement,
+    showChildren,
+    value,
+    handleOverlayClick,
+    showOverlayContainer
+  } = useFormFieldDropdown({ elements, errorMessage, defaultValue, id })
 
   return (
     <>
@@ -123,7 +54,7 @@ export default function FormFieldDropdown({
         <div className='flex justify-between items-center w-full bg-transparent border-b border-white '>
           <input
             onFocus={handleFocus}
-            onChange={_handleChange}
+            onChange={handleChange}
             value={value}
             className='text-[20px] font-sans outline-none bg-transparent w-full max-w-[720px] z-20'
             type='text'
@@ -133,7 +64,6 @@ export default function FormFieldDropdown({
             aria-autocomplete='list'
             placeholder={placeholder}
           />
-
           {crossIcon ? (
             <button
               className='z-20'
@@ -159,39 +89,19 @@ export default function FormFieldDropdown({
             </button>
           )}
         </div>
-        {showNoResults && <ConfigFormError> {noResultsText} </ConfigFormError>}
+        {errorMessage?.message && <ErrorMessage> {errorMessage.message} </ErrorMessage>}
 
         {isOpen && (
-          <ul className='w-full bg-transparent flex flex-col gap-2'>
-            {dropdownElements.map((dropdownElement) => {
-              const higlightedLetters = dropdownElement.name.slice(0, value.length)
-              const restOfLetters = dropdownElement.name.slice(value.length)
-              const isSelected = selectedElement === dropdownElement.name
-
-              return (
-                <FormFieldDropdownElement
-                  key={dropdownElement.name}
-                  handleClick={() => handleDropdownElementClick(dropdownElement.name)}
-                  className={dropdownElement.className}
-                >
-                  <div>
-                    <span className={HIGHLIGHTED_COLORS[dropdownElement.higilightedColor]}>
-                      {higlightedLetters}
-                    </span>
-                    {restOfLetters}
-                  </div>
-
-                  {isSelected && <CheckIcon className={dropdownElement.iconColor} />}
-                </FormFieldDropdownElement>
-              )
-            })}
-          </ul>
+          <FormFieldDropdownElementsList
+            dropdownElements={dropdownElements}
+            handleDropdownElementClick={handleDropdownElementClick}
+            selectedElement={selectedElement}
+            value={value}
+          />
         )}
         {showChildren && children}
       </FormFieldWraper>
-      {isOpen && !showNoResults && (
-        <div onClick={handleOutsideDropdownClick} className='absolute w-screen h-screen z-10'></div>
-      )}
+      {showOverlayContainer && <OverlayContainer handleClick={handleOverlayClick} />}
     </>
   )
 }
