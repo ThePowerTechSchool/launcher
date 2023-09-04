@@ -39,7 +39,7 @@ export const INITIAL_CONFIG_FORM_PROPS_FIELDS: ConfigFormProps['formFields'] = [
         dropdownElements: STYLING_VARIANATS,
         label: 'Escribe o elige que quieres utilizar para estilar en tu proyecto.',
         id: 'stylingTool',
-        if: { technology: ['React', 'JavaScript'] },
+        if: { technology: ['React', 'Vanilla'] },
         placeholder: 'Tailwind',
         variant: 'dropdown',
         schema: stylingVariantSchema
