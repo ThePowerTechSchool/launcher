@@ -13,10 +13,10 @@ export default function SubmitButton({ disabled = false, onClick, type = 'submit
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className=' self-start flex gap-2 rounded-[4px] items-center px-[14px] py-[6px]
-    bg-blue-500 hover:bg-blue-400 transition-colors font-bold shadow-[rgba(0, 0, 0, 0.1) 0px 3px 12px 0px;] text-sm font-sans disabled:opacity-50 disabled:cursor-not-allowed'
+      className=' self-start items-center  px-[12px] py-[4px] md:px-[14px] mdpy-[6px]
+      bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-300 hover:bg-gradient-to-br hover:from-zinc-300 hover:via-zinc-200 hover:to-zinc-100  shadow-lg shadow-zinc-500/50  rounded-lg  ring-1   font-medium text-lg md:text-xl transition-colors  shadow-[rgba(0, 0, 0, 0.1) 0px 3px 12px 0px;] disabled:opacity-50 disabled:cursor-not-allowe text-black'
     >
-      OK <CheckIcon className='fill-white' />
+      <CheckIcon className='stroke-[1.9px] w-5 h-5 md:w-6 md:h-6' />
     </button>
   )
 }
