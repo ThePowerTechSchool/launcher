@@ -109,29 +109,6 @@ export const STYLING_VARIANATS: DropdownElement[] = [
     iconColor: 'fill-green-500'
   }
 ]
-export const PROJECT_NAME = 'Launcher App'
-
-export const HIGILIGHTED_FEATURES = [
-  {
-    title: 'Preguntas Inteligentes: ',
-    description: `${PROJECT_NAME} te guía a través de una serie de preguntas clave para entender tus necesidades. ¿Qué tecnologías prefieres? ¿Qué tipo de proyecto estás construyendo? Nuestra aplicación se adapta a tus respuestas y genera una estructura de proyecto personalizada`
-  },
-  {
-    title: 'Scaffolding Automatizado: ',
-    description: ` Olvídate de crear estructuras de proyectos desde cero. ${PROJECT_NAME} genera automáticamente la carpeta con el scaffolding adecuado, ahorrándote horas de trabajo manual.`
-  },
-  {
-    title: 'Gestión de Dependencias: ',
-    description: `¿Necesitas ciertas bibliotecas o dependencias específicas? ${PROJECT_NAME} se encarga de la instalación y configuración de todas las dependencias necesarias para tu proyecto.`
-  },
-  {
-    title: 'Personalización Total: ',
-    description: `Aunque ${PROJECT_NAME} automatiza gran parte del proceso, aún tienes el control total. Puedes personalizar y ajustar cualquier aspecto de tu proyecto según tus necesidades.`
-  },
-  {
-    title: 'Compatibilidad con las Tecnologías Más Populares: ',
-    description: `Trabaja con las tecnologías más utilizadas, desde JavaScript y React hasta Python y Django. ${PROJECT_NAME} te respalda en una amplia variedad de tecnologías y marcos de trabajo.`
-  }
-]
+export const PROJECT_NAME = 'Luncher App'
 
 // Temporary until we have a better name
